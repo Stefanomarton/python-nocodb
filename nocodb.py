@@ -1,4 +1,8 @@
 import requests
+import sys
+import json
+from datetime import datetime
+import pandas as pd
 
 # Define the NocoDB URL components
 hosturl = "http://10.1.0.170:8080"
@@ -45,7 +49,44 @@ def createLink(tableId, linkFieldId, linkRowId, recordRowId):
         print("Record created successfully.")
 
 
-print(getTableEntries("mcu569c5t3pofvv"))
+def filterEntriesByMonth(tableId, month):
+    data = json.loads(getTableEntries(tableId))
+    july_entries = []
+    for entry in data["list"]:
+        date_str = entry["Date"]
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+        if date_obj.month == month:  # Check if the month is July
+            july_entries.append(entry)
+    return july_entries
+
+
+def idsByMonth(tableId, month):
+    data = json.loads(getTableEntries(tableId))
+
+    july_entry_ids = []
+    for entry in data["list"]:
+        date_str = entry["Date"]
+        date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+        if date_obj.month == month:  # Check the month
+            july_entry_ids.append(entry["Id"])
+    return july_entry_ids
+
+
+# Load the JSON data from the file
+# data = getTableEntries("mcu569c5t3pofvv")
+
+# print(json.dumps(filterEntriesByMonth("mcu569c5t3pofvv", 7)))
+# todo = filterEntriesByMonth("mcu569c5t3pofvv", 6)
+
+# df = pd.DataFrame(todo, columns=["Date", "Hours", "Tag", "Description"])
+
+# Display the DataFrame
+# print(df)
+
+# for i in todo:
+#     createLink("m4k483bsn6sv35z", "crbfkuxfc1zxjxo", 2, i)
+
+# Function to filter IDs of entries with "Date" in July
 
 # data = {"Title": "Buy milk", "Done": True}
 
