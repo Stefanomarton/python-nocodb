@@ -9,12 +9,13 @@ class NocoDB:
         self.port = port
         self.api_token = api_token
         self.headers = {"xc-token": api_token}
+        self.baseUrl = f"{self.hosturl}/api/v2"
 
     def getTableEntries(self, tableId: str, viewID: str = "") -> str:
         """
         Get entries for table with {tableId}, optionally use a view with {viewID}
         """
-        url = f"{self.hosturl}/api/v2/tables/{tableId}/records"
+        url = f"{self.baseUrl}/tables/{tableId}/records"
 
         querystring = {
             "viewId": viewID,
@@ -29,7 +30,7 @@ class NocoDB:
         """
         Create entry for table with {tableId}
         """
-        url = f"{self.hosturl}/api/v2/tables/{tableId}/records"
+        url = f"{self.baseUrl}/tables/{tableId}/records"
 
         headers = {"xc-token": self.api_token}
 
@@ -45,7 +46,7 @@ class NocoDB:
     ):
         """Create a link in row {linkRowId} to {recordRowId}"""
 
-        url = f"{self.hosturl}/api/v2/tables/{tableId}/links/{linkFieldId}/records/{linkRowId}"
+        url = f"{self.baseUrl}/tables/{tableId}/links/{linkFieldId}/records/{linkRowId}"
 
         payload = {
             "Id": recordRowId,
