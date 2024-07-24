@@ -44,8 +44,7 @@ class NocoDB:
     def createLink(
         self, tableId: str, linkFieldId: str, linkRowId: int, recordRowId: int
     ):
-        """Create a link in row {linkRowId} to {recordRowId}"""
-
+        """Create a link in row {linkRowId} to {recordRowId}."""
         url = f"{self.baseUrl}/tables/{tableId}/links/{linkFieldId}/records/{linkRowId}"
 
         payload = {
